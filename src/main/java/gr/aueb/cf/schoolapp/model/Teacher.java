@@ -3,6 +3,8 @@ package gr.aueb.cf.schoolapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.UUID;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +19,7 @@ public class Teacher {
     private Long id;
 
     @Column(unique = true)
-    private Long uuid;
+    private String uuid;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -26,4 +28,7 @@ public class Teacher {
     @JoinColumn(name = "personal_info_id")
     private PersonalInfo personalInfo;
 
+    public void initializeUUID() {
+        if (uuid == null) uuid = UUID.randomUUID().toString();
+    }
 }
