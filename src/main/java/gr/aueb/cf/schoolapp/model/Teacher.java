@@ -22,4 +22,8 @@ public class Teacher {
     @Column(name = "is_active")
     private Boolean isActive;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "personal_info_id")
+    private PersonalInfo personalInfo;
+
 }
