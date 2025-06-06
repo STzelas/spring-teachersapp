@@ -2,12 +2,14 @@ package gr.aueb.cf.schoolapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-public class Spring7RestApplication {
+@EnableJpaAuditing // created_at, updated_at
+public class SchoolAppApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Spring7RestApplication.class, args);
+		SpringApplication.run(SchoolAppApplication.class, args);
 	}
 
 }
