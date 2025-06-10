@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @Table(name = "teachers")
-public class Teacher {
+public class Teacher extends AbstractEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,10 @@ public class Teacher {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "personal_info_id")
     private PersonalInfo personalInfo;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public void initializeUUID() {
         if (uuid == null) uuid = UUID.randomUUID().toString();
