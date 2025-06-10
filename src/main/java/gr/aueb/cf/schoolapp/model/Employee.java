@@ -33,6 +33,10 @@ public class Employee extends AbstractEntity {
     @JoinTable(name = "employees_edu_units")
     private Set<EducationalUnit> eduUnits = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void addEducationalUnit (EducationalUnit educationalUnit) {
         if (eduUnits == null) eduUnits = new HashSet<>();
         eduUnits.add(educationalUnit);
