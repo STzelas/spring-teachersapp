@@ -20,6 +20,7 @@ public class EducationalUnit {
     private Long id;
     private String name;
 
+    @Getter(AccessLevel.PRIVATE)
     @ManyToMany(mappedBy = "eduUnits")
     private Set<Employee> employees = new HashSet<>();
 
