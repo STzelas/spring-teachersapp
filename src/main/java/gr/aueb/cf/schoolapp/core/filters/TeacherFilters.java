@@ -21,5 +21,4 @@ public class TeacherFilters {
     @Nullable
     private Boolean isActive;
 
-
 }
