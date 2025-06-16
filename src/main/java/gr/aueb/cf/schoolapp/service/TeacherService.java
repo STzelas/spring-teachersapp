@@ -2,6 +2,9 @@ package gr.aueb.cf.schoolapp.service;
 
 import gr.aueb.cf.schoolapp.core.exceptions.AppObjectAlreadyExists;
 import gr.aueb.cf.schoolapp.core.exceptions.AppObjectInvalidArgumentException;
+import gr.aueb.cf.schoolapp.core.filters.Paginated;
+import gr.aueb.cf.schoolapp.core.filters.TeacherFilters;
+import gr.aueb.cf.schoolapp.core.specifications.TeacherSpecification;
 import gr.aueb.cf.schoolapp.dto.TeacherInsertDTO;
 import gr.aueb.cf.schoolapp.dto.TeacherReadOnlyDTO;
 import gr.aueb.cf.schoolapp.mapper.Mapper;
@@ -19,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -131,5 +135,21 @@ public class TeacherService {
 
         // Επιστρέφει PAGE - ΑΥΤΉ ΜΑΣ ΔΙΝΕΙ ΤΟ .map
         return teacherRepository.findAll(pageable).map(mapper::mapToTeacherReadOnlyDTO);
+    }
+
+    @Transactional
+    public Paginated<TeacherReadOnlyDTO> getTeachersFilteredPaginated (TeacherFilters filters) {
+        var filtered = teacherRepository.findAll(getSpecsFromFilters(filters), filters.getPageable());
+
+        return new Paginated<>(filtered.map(mapper::mapToTeacherReadOnlyDTO));
+    }
+
+
+    private Specification<Teacher> getSpecsFromFilters (TeacherFilters teacherFilters) {
+        return Specification
+                .where(TeacherSpecification.teacherStringFieldLike("uuid", teacherFilters.getUuid()))
+                .and(TeacherSpecification.teacherUserAfmIs(teacherFilters.getUserAfm()))
+                .and(TeacherSpecification.teacherPersonalInfoAmkaIs(teacherFilters.getUserAfm()))
+                .and(TeacherSpecification.teacherIsActive(teacherFilters.getIsActive()));
     }
 }
