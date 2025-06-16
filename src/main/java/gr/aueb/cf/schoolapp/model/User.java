@@ -36,7 +36,7 @@ public class User extends AbstractEntity implements UserDetails {
     private String lastname;
 
     @Column(unique = true)
-    private String vat;
+    private String afm;
 
     @Column(name = "father_name")
     private String fatherName;
