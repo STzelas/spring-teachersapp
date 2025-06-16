@@ -15,6 +15,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -87,5 +91,45 @@ public class TeacherService {
 
         return filename.substring(filename.lastIndexOf("."));
 
+    }
+
+    /**
+     * What page? πχ page 5
+     * What size? πχ size 20
+     * How many total elements? πχ 50
+     * How many current elements? πχ 20
+     *
+     * Page container έχει όλη την πληροφορία
+     * εκτός απο τα παραπάνω
+     * έχει και totalElements και totalPages και currentPage
+     */
+    @Transactional
+    public Page<TeacherReadOnlyDTO> getPaginatedTeachers(int page, int size) {
+        String defaultSort = "id";
+
+
+        // Pageable = Interface που το κάνουμε populate με το PageRequest
+        // έχει getPageSize, getPageNumber, getSort κλπ και άλλες μεθόδους
+
+        // Sort container που έχει πληροφορία για τα πεδία με τα οποία θα κάνουμε sort
+        // τα αποτελέσματα και για το direction (ascending, descending)
+        // και το κάνουμε populate με την .by()
+        Pageable pageable = PageRequest.of(page, size, Sort.by(defaultSort).ascending());
+        return teacherRepository.findAll(pageable).map(mapper::mapToTeacherReadOnlyDTO);
+    }
+
+    /**
+     * Και paginated
+     * και sorted
+     */
+    @Transactional
+    public Page<TeacherReadOnlyDTO> getPaginatedSortedTeachers (int page, int size, String sortBy, String sortDirection) {
+
+        // Παίρνει το direction / και Πληροφορία απο τί θα γίνει το sort
+        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // Επιστρέφει PAGE - ΑΥΤΉ ΜΑΣ ΔΙΝΕΙ ΤΟ .map
+        return teacherRepository.findAll(pageable).map(mapper::mapToTeacherReadOnlyDTO);
     }
 }
