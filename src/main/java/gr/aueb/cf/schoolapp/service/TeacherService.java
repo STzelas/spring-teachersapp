@@ -26,7 +26,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -49,8 +48,8 @@ public class TeacherService {
     public TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO teacherInsertDTO, MultipartFile amkaFile)
             throws AppObjectAlreadyExists, AppObjectInvalidArgumentException, IOException {
 
-        if (userRepository.findByVat(teacherInsertDTO.getUser().getVat()).isPresent()) {
-            throw new AppObjectAlreadyExists("User", "User with vat: " + teacherInsertDTO.getUser().getVat() + " already exists");
+        if (userRepository.findByAfm(teacherInsertDTO.getUser().getAfm()).isPresent()) {
+            throw new AppObjectAlreadyExists("User", "User with afm: " + teacherInsertDTO.getUser().getAfm() + " already exists");
         }
 
         if (userRepository.findByUsername(teacherInsertDTO.getUser().getUsername()).isPresent()) {
@@ -67,13 +66,14 @@ public class TeacherService {
         return mapper.mapToTeacherReadOnlyDTO(savedTeacher);
     }
 
+    @Transactional(rollbackOn = Exception.class)
     public void saveAmkaFile(PersonalInfo personalInfo, MultipartFile amkaFile)
             throws IOException {
 
         if (amkaFile == null || amkaFile.isEmpty()) return;
 
         String originalFileName = amkaFile.getOriginalFilename();
-        String savedName = UUID.randomUUID().toString() + getFileExtension(originalFileName);
+        String savedName = UUID.randomUUID() + getFileExtension(originalFileName);
 
         String uploadDirectory = "uploads/";
         Path filePath = Paths.get(uploadDirectory + savedName);
