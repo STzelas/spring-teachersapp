@@ -18,6 +18,7 @@ public class PersonalInfo extends AbstractEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String amka;
 
     @Column(name = "identity_number")
