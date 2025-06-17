@@ -10,7 +10,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
 
-    Optional<User> findByVat(String vat);
+    Optional<User> findByAfm(String afm);
     Optional<User> findByUsername(String username);
 
 }
