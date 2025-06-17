@@ -25,7 +25,7 @@ public class Mapper {
         UserReadOnlyDTO userDTO = new UserReadOnlyDTO();
         userDTO.setFirstname(teacher.getUser().getFirstname());
         userDTO.setLastname(teacher.getUser().getLastname());
-        userDTO.setVat(teacher.getUser().getAfm());
+        userDTO.setAfm(teacher.getUser().getAfm());
         teacherReadOnlyDto.setUser(userDTO);
 
         // Map PersonalInfo to PersonalInfoReadOnlyDTO
@@ -49,7 +49,7 @@ public class Mapper {
         user.setLastname(userDTO.getLastname());
         user.setUsername(userDTO.getUsername());
         user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        user.setAfm(userDTO.getVat());
+        user.setAfm(userDTO.getAfm());
         user.setFatherName(userDTO.getFatherName());
         user.setFatherLastname(userDTO.getFatherLastname());
         user.setMotherName(userDTO.getMotherName());
@@ -57,7 +57,7 @@ public class Mapper {
         user.setDateOfBirth(userDTO.getDateOfBirth());
         user.setGender(userDTO.getGender());
         user.setRole(userDTO.getRole());
-        user.setActive(dto.getIsActive());
+        user.setIsActive(dto.getIsActive());
         teacher.setUser(user);  // Set User entity to Teacher
 
         // Map fields from PersonalInfoDTO
