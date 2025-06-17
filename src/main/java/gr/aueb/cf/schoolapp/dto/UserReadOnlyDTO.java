@@ -12,5 +12,5 @@ import lombok.Setter;
 public class UserReadOnlyDTO {
     private String firstname;
     private String lastname;
-    private String vat;
+    private String afm;
 }
