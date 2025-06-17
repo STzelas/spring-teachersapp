@@ -61,7 +61,7 @@ public class User extends AbstractEntity implements UserDetails {
 
     @ColumnDefault("true")
     @Column(name = "is_active")
-    private boolean isActive;
+    private Boolean isActive;
 
     @OneToOne(mappedBy = "user")
     private Teacher teacher;
